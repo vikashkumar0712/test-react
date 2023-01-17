@@ -5,7 +5,9 @@ function Navbar() {
   return (
     <>
       <div className={`border pl-8 flex space-x-8 items-center py-4 justify-center`}>
+        <Link to={'/'}>
         <img src={Logo} alt={`Logo`} className={`object-fill w-12 md:w-15`} />
+        </Link>
         <Link to={`/`} className={`text-blue-400 font-bold text-xl md:text-2xl`}>Movies</Link>
         <Link to={'/favourites'} className={`text-blue-400 font-bold text-xl md:text-2xl`}>Favourites</Link>
       </div>
