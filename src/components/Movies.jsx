@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { MutatingDots } from "react-loader-spinner";
+import axios from "axios";
 function Movies() {
-  let [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState([]);
   useEffect(() => {
     axios
       .get(
-        "https://api.themoviedb.org/3/trending/movie/week?api_key=a222d7aaa31f205703620f5a31bf0121"
+        `${process.env.REACT_APP_GET_MOVIES}${process.env.REACT_APP_TMDB_API_KEY}`
       )
       .then((res) => {
         setMovies(res.data.results);
       });
-  });
+  }, []);
 
   return (
     <>
@@ -38,9 +38,13 @@ function Movies() {
             {movies.map((movie) => {
               return (
                 <div
-                  className={`bg-[url(https://image.tmdb.org/t/p/w500${movie.backdrop_path})] h-[25vh] w-[170px] md:h-[30vh] md:w-[200px] text-white bg-cover bg-no-repeat bg-center rounded-xl flex items-end m-4 hover:scale-110 ease-out duration-300`}
+                  className={`bg-[url(${process.env.REACT_APP_BASE_IMG_URL_CARD}${movie.poster_path})] h-[30vh] w-[170px] md:h-[35vh] md:w-[200px] text-white bg-cover bg-no-repeat bg-top rounded-xl flex items-end m-4 hover:scale-110 ease-out duration-300`}
+                  key={movie.id}
                 >
-                  <div className="w-full bg-gray-900 py-2 text-center rounded-b-xl">
+                  <div
+                    className="w-full bg-gray-900 py-2 text-center rounded-b-xl"
+                    key={movie.id}
+                  >
                     {movie.title}
                   </div>
                 </div>
