@@ -4,10 +4,11 @@ import Pagination from "./Pagination";
 import axios from "axios";
 
 function Movies() {
-
   // State Management
   const [movies, setMovies] = useState([]);
   let [page, setPage] = useState(1);
+  let [hover, setHover] = useState(null);
+  let [favourites, setFavourites] = useState([]);
 
   // API management
   useEffect(() => {
@@ -22,7 +23,7 @@ function Movies() {
         setMovies(movies);
       });
 
-      // API dependended on the current --> page
+    // API dependended on the current --> page
   }, [page]);
 
   // Pagination methods
@@ -32,6 +33,18 @@ function Movies() {
 
   const prev = () => {
     page > 1 ? setPage(page - 1) : (page = 1);
+  };
+
+  const addFavourite = (movie) => {
+    const addedFavorite = [...favourites, movie];
+    setFavourites([...addedFavorite]);
+  };
+
+  const removeFavourite = (movie) => {
+    const removedFavorite = favourites.filter(
+      (isMovie) => isMovie.id !== movie.id
+    );
+    setFavourites([...removedFavorite]);
   };
 
   // Component Handler
@@ -60,11 +73,38 @@ function Movies() {
             {movies.map((movie) => {
               return (
                 <div
-                  className={`bg-[url(${process.env.REACT_APP_BASE_IMG_URL_CARD}${movie.poster_path})] h-[30vh] w-[170px] md:h-[35vh] md:w-[200px] text-white bg-cover bg-no-repeat bg-top rounded-xl flex items-end m-4 hover:scale-110 ease-out duration-300`}
+                  className={`bg-[url(${process.env.REACT_APP_BASE_IMG_URL_CARD}${movie.poster_path})] 
+                  h-[30vh] w-[170px] md:h-[35vh] md:w-[200px] text-white bg-cover bg-no-repeat bg-top 
+                  rounded-xl flex items-end m-4 hover:scale-110 ease-out duration-300 relative`}
                   key={movie.id}
+                  onMouseEnter={() => setHover(movie.id)}
+                  onMouseLeave={() => setHover(null)}
                 >
+                  {hover === movie.id && (
+                    <>
+                      {!favourites.find(
+                        (isMovie) => isMovie.id === movie.id
+                      ) ? (
+                        <div
+                          className={`absolute top-2 right-2 text-2xl
+                     rounded-3xl p-1 backdrop-blur-xl drop-shadow-md cursor-pointer`}
+                          onClick={() => addFavourite(movie)}
+                        >
+                          💗
+                        </div>
+                      ) : (
+                        <div
+                          className={`absolute top-2 right-2 text-2xl
+                   rounded-3xl p-1 backdrop-blur-xl drop-shadow-md cursor-pointer`}
+                          onClick={() => removeFavourite(movie)}
+                        >
+                          ❌
+                        </div>
+                      )}
+                    </>
+                  )}
                   <div
-                    className="w-full bg-gray-900 py-2 text-center rounded-b-xl"
+                    className={`w-full bg-gray-900 py-2 text-center rounded-b-xl`}
                     key={movie.id}
                   >
                     {movie.title}
