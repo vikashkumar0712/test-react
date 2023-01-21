@@ -1,18 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { MutatingDots } from "react-loader-spinner";
+import Pagination from "./Pagination";
 import axios from "axios";
+
 function Movies() {
+
+  // State Management
   const [movies, setMovies] = useState([]);
+  let [page, setPage] = useState(1);
+
+  // API management
   useEffect(() => {
+    const CURRENT_PAGE = `&page=${page}`;
+
     axios
       .get(
-        `${process.env.REACT_APP_GET_MOVIES}${process.env.REACT_APP_TMDB_API_KEY}`
+        `${process.env.REACT_APP_GET_MOVIES}${process.env.REACT_APP_TMDB_API_KEY}${CURRENT_PAGE}`
       )
       .then((res) => {
-        setMovies(res.data.results);
+        const movies = res.data.results;
+        setMovies(movies);
       });
-  }, []);
 
+      // API dependended on the current --> page
+  }, [page]);
+
+  // Pagination methods
+  const next = () => {
+    setPage(page + 1);
+  };
+
+  const prev = () => {
+    page > 1 ? setPage(page - 1) : (page = 1);
+  };
+
+  // Component Handler
   return (
     <>
       <div className="mb-8 text-center">
@@ -53,6 +75,7 @@ function Movies() {
           </div>
         )}
       </div>
+      <Pagination propPrev={prev} propPage={page} propNext={next} />
     </>
   );
 }
