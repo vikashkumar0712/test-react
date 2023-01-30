@@ -45,10 +45,10 @@ function Movies() {
   };
 
   const removeFavourite = (movie) => {
-    const removedFavorite = favourites.filter(
+    const removedFavourite = favourites.filter(
       (isMovie) => isMovie.id !== movie.id
     );
-    setFavourites([...removedFavorite]);
+    setFavourites([...removedFavourite]);
     localStorage.setItem("localfFavourites", JSON.stringify(removedFavourite));
   };
 
