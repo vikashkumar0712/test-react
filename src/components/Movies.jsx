@@ -21,6 +21,9 @@ function Movies() {
       .then((res) => {
         const movies = res.data.results;
         setMovies(movies);
+        const savedFavourites =
+        JSON.parse(localStorage.getItem("localfFavourites")) || [];
+        setFavourites([...savedFavourites]);
       });
 
     // API dependended on the current --> page
@@ -38,6 +41,7 @@ function Movies() {
   const addFavourite = (movie) => {
     const addedFavorite = [...favourites, movie];
     setFavourites([...addedFavorite]);
+    localStorage.setItem("localfFavourites", JSON.stringify(addedFavorite));
   };
 
   const removeFavourite = (movie) => {
@@ -45,6 +49,7 @@ function Movies() {
       (isMovie) => isMovie.id !== movie.id
     );
     setFavourites([...removedFavorite]);
+    localStorage.setItem("localfFavourites", JSON.stringify(removedFavourite));
   };
 
   // Component Handler
