@@ -22,7 +22,7 @@ function Movies() {
         const movies = res.data.results;
         setMovies(movies);
         const savedFavourites =
-        JSON.parse(localStorage.getItem("localfFavourites")) || [];
+          JSON.parse(localStorage.getItem("localfFavourites")) || [];
         setFavourites([...savedFavourites]);
       });
 
@@ -79,7 +79,7 @@ function Movies() {
               return (
                 <div
                   className={`bg-[url(${process.env.REACT_APP_BASE_IMG_URL_CARD}${movie.poster_path})] 
-                  h-[30vh] w-[170px] md:h-[35vh] md:w-[200px] text-white bg-cover bg-no-repeat bg-top 
+                  h-[30vh] w-[140px] md:h-[35vh] md:w-[200px] text-white bg-cover bg-no-repeat bg-top 
                   rounded-xl flex items-end m-4 hover:scale-110 ease-out duration-300 relative`}
                   key={movie.id}
                   onMouseEnter={() => setHover(movie.id)}
