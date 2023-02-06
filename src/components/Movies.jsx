@@ -35,13 +35,13 @@ function Movies() {
   };
 
   const prev = () => {
-    page > 1 ? setPage(page - 1) : (page = 1);
+    page > 1 && setPage(page - 1);
   };
 
   const addFavourite = (movie) => {
-    const addedFavorite = [...favourites, movie];
-    setFavourites([...addedFavorite]);
-    localStorage.setItem("localfFavourites", JSON.stringify(addedFavorite));
+    const addedFavourite = [...favourites, movie];
+    setFavourites([...addedFavourite]);
+    localStorage.setItem("localfFavourites", JSON.stringify(addedFavourite));
   };
 
   const removeFavourite = (movie) => {
