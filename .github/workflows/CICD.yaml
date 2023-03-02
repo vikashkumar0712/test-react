@@ -19,30 +19,19 @@ jobs:
         env:
             BRANCH: ${{ github.ref_name }}
             BUILD_NUMBER: ${{ github.run_number }}
-            REACT_APP_BASE_IMG_URL_BANNER: ${{ secrets.REACT_APP_BASE_IMG_URL_BANNER }}
-            REACT_APP_BASE_IMG_URL_CARD: ${{ secrets.REACT_APP_BASE_IMG_URL_CARD }}
-            REACT_APP_GET_MOVIES: ${{ secrets.REACT_APP_GET_MOVIES }}
-            REACT_APP_TMDB_API_KEY: ${{ secrets.REACT_APP_TMDB_API_KEY }}
+ 
         with:
           host: ${{ secrets.HOST_DNS }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script_stop: true
-          envs: BRANCH, BUILD_NUMBER, REACT_APP_BASE_IMG_URL_BANNER, REACT_APP_BASE_IMG_URL_CARD,  REACT_APP_GET_MOVIESL, REACT_APP_TMDB_API_KEY
+          envs: BRANCH, BUILD_NUMBER
           script: |
             pwd
-            cd react-movie-app/
-            git switch $BRANCH
-            git branch
-            git pull
-            sudo docker build -t mogul-mvp-investor-react:$BUILD_NUMBER .
-            sudo docker stop my-react-app || true
-            sudo docker rm  my-react-app || true
-            sudo docker run -d --name my-rect-app -p 3000:3000 -e REACT_APP_BASE_IMG_URL_BANNER=$REACT_APP_BASE_IMG_URL_BANNER -e REACT_APP_BASE_IMG_URL_CARD=$REACT_APP_BASE_IMG_URL_CARD -e REACT_APP_GET_MOVIESL=$REACT_APP_GET_MOVIESL -e REACT_APP_TMDB_API_KEY=$REACT_APP_TMDB_API_KEY  mogul-mvp-investor-react:$BUILD_NUMBER
+            cd product-compare-react/
+            sudo docker build -t my-node-app:$BUILD_NUMBER .
+            sudo docker stop my-node-app-container || true
+            sudo docker rm  my-node-app-container || true
+            sudo docker run -d --name my-node-app-container -p 3000:3000 my-node-app:$BUILD_NUMBER
             sudo docker system prune -a -f
-
-
-
-
-
