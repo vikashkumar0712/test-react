@@ -29,7 +29,6 @@ jobs:
           envs: BRANCH, BUILD_NUMBER
           script: |
             pwd
-            cd react-movie-app/
             sudo docker build -t my-node-app:$BUILD_NUMBER .
             sudo docker stop react-movie-app || true
             sudo docker rm  react-movie-app || true
