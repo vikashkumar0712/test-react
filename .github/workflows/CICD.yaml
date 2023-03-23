@@ -50,6 +50,7 @@ jobs:
         run: |
           git config --global user.email "chiragdksh@gmail.com"
           git config --global user.name "vikashkumar0712"
+          git clone https://github.com/vikashkumar0712/test-manifast-react
           echo ${{ github.sha }}
           sed -i 's+947841444229.dkr.ecr.us-east-2.amazonaws.com/react-image:.*+947841444229.dkr.ecr.us-east-2.amazonaws.com/react-image:${{ github.sha }}+g' deployment.yaml
           git add -A
