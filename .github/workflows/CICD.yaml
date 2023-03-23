@@ -37,3 +37,22 @@ jobs:
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+  update-manifest:
+    runs-on: ubuntu-latest 
+    needs: ['build']
+    steps:
+      - uses: actions/checkout@v3
+        with: 
+          repository: vikashkumar0712/test-manifast-react
+          ref: 'main'
+          token: ${{ secrets.G_TOKEN }}
+      - name: setup git config
+        run: |
+          git config --global user.email "chiragdksh@gmail.com"
+          git config --global user.name "vikashkumar0712"
+          echo ${{ github.sha }}
+          sed -i 's+vikashkumar0712/test-manifast-react:.*+vikashkumar0712/test-manifast-react:${{ github.sha }}+g' deployment.yaml
+          git add -A
+          git commit -m "Update image for - ${{ github.sha }}"
+      - run: echo ${{ github }}
+      - run: git push origin main
