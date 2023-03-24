@@ -43,7 +43,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with: 
-          repository: vikashkumar0712/react-movie-app
           ref: 'deployment'
           token: ${{ secrets.G_TOKEN2 }}
       - name: setup git config
