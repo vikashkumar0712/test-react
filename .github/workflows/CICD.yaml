@@ -43,6 +43,9 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
+        with: 
+          ref: 'main'
+          token: ${{ secrets.G_TOKEN2 }}
       - name: sUpdate manifest
         run: |
           sed -i 's+947841444229.dkr.ecr.us-east-2.amazonaws.com/react-image:.*+947841444229.dkr.ecr.us-east-2.amazonaws.com/react-image:${{ github.sha }}+g' deployment.yaml
