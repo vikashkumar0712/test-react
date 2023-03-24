@@ -43,9 +43,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with: 
-          repository: vikashkumar0712/react-movie-app
+#           repository: vikashkumar0712/manifest-yaml
           ref: 'main'
-          token: ${{ secrets.G_TOKEN2 }}
+#           token: ${{ secrets.G_TOKEN2 }}
       - name: setup git config
         run: |
           git config --global user.email "chiragdksh@gmail.com"
