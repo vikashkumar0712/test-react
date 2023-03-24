@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with: 
-          repository: vikashkumar0712/test-manifast-react
+          repository: vikashkumar0712/manifest-yaml
           ref: 'main'
           token: ${{ secrets.G_TOKEN2 }}
       - name: setup git config
