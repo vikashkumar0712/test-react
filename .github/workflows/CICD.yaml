@@ -54,4 +54,4 @@ jobs:
           git add -A
           git commit -m "Update image for - ${{ github.sha }}"
       - run: echo ${{ github }}
-      - run: git push origin main
+      - run: git push origin deployment
