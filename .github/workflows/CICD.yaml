@@ -1,32 +1,49 @@
-name: Deploy to ECR
+name: Build and push image to ECR
 
 on:
- 
   push:
-    branches: ['master']
+    branches: [ "master" ]
+  
 
 jobs:
-  build-and-push-docker-image-to-ECR:
+  
+  build:
+    
+    name: Build Image
     runs-on: ubuntu-latest
+
+   
     steps:
-      - uses: actions/checkout@v1
-      - uses: vitr/actions-build-and-upload-to-ecs@master
-        with:
-          access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          account_id: ${{ secrets.AWS_ACCOUNT_ID }}
-          repo: react-image
-          region: us-east-2
-          tags: ${{ github.sha }}
-          create_repo: true
-        
-  update-k8s-manifest:
+
+    - name: Check out code
+      uses: actions/checkout@v2
+    
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build, tag, and push image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: react-image
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+  update-manifest:
     runs-on: ubuntu-latest 
-    needs: ['build-and-push-docker-image-to-ECR']
+    needs: ['build']
     steps:
       - uses: actions/checkout@v3
         with: 
-          repository: vikashkumar0712/manifest-yaml
+          repository: vikashkumar0712/test-manifast-react
           ref: 'main'
           token: ${{ secrets.G_TOKEN2 }}
       - name: setup git config
@@ -39,11 +56,3 @@ jobs:
           git commit -m "Update image for - ${{ github.sha }}"
       - run: echo ${{ github }}
       - run: git push origin main
-      
-      - name: Configure kubectl
-        run: |
-          aws eks --region us-east-2 update-kubeconfig --name ReactCluster
-          kubectl config use-context ReactCluster
-      - name: Apply Kubernetes manifest
-        run: |
-          kubectl apply -f deployment.yaml
