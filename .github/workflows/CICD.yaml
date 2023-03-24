@@ -39,3 +39,11 @@ jobs:
           git commit -m "Update image for - ${{ github.sha }}"
       - run: echo ${{ github }}
       - run: git push origin main
+      
+      - name: Configure kubectl
+        run: |
+          aws eks --region us-east-2 update-kubeconfig --name ReactCluster
+          kubectl config use-context ReactCluster
+      - name: Apply Kubernetes manifest
+        run: |
+          kubectl apply -f deployment.yaml
