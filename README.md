@@ -2,7 +2,7 @@
 
 ### Provisioning The server
 1: 
-Create a EC2 Instance.
+Create a EC2 Instance
 
 2:
 Modify the Security Group And allow 3000 port traffic
