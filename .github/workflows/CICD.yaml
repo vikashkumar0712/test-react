@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with: 
-          ref: 'deployment'
+          ref: 'master'
           token: ${{ secrets.G_TOKEN2 }}
       - name: setup git config
         run: |
