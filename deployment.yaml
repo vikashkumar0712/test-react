@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
   - name: react-container
-    image: 947841444229.dkr.ecr.us-east-2.amazonaws.com/react-image:e747ef30c025fc865280faeb0ca5641a2ea6ca26
+    image: 947841444229.dkr.ecr.us-east-2.amazonaws.com/react-image:5392d36b40401ee868d795e00395b6511aeaca18
     ports:
     - containerPort: 3000
 ---
