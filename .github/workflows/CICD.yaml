@@ -2,8 +2,7 @@ name: Build and push image to ECR
 
 on:
   push:
-    branches: 
-      - deployment    
+    branches: ["master"]   
   
 
 jobs:
@@ -44,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with: 
-          ref: 'master'
+          ref: 'deployment'
           token: ${{ secrets.G_TOKEN2 }}
       - name: setup git config
         run: |
