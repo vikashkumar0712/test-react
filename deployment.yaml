@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: react-pod
   labels: 
-    app: my-app
+    app: my-react-app
 spec:
   containers:
   - name: react-container
@@ -17,7 +17,7 @@ metadata:
   name: my-service
 spec:
   selector:
-    app: my-app
+    app: my-react-app
   ports:
   - name: http
     port: 80
