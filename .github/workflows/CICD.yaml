@@ -2,7 +2,7 @@ name: Build and push image to ECR
 
 on:
   push:
-    branches: [ "deployment" ]
+    branches: ["deployment"]
   
 
 jobs:
@@ -37,63 +37,21 @@ jobs:
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-#   update-manifest:
-#     runs-on: ubuntu-latest 
-#     needs: ['build']
-#     steps:
-#       - uses: actions/checkout@v3
-#         with: 
-#           repository: vikashkumar0712/manifest-yaml
-#           ref: 'main'
-#           token: ${{ secrets.G_TOKEN2 }}
-#       - name: setup git config
-#         run: |
-#           git config --global user.email "chiragdksh@gmail.com"
-#           git config --global user.name "vikashkumar0712"
-#           echo ${{ github.sha }}
-#           sed -i 's+947841444229.dkr.ecr.us-east-2.amazonaws.com/react-image:.*+947841444229.dkr.ecr.us-east-2.amazonaws.com/react-image:${{ github.sha }}+g' deployment.yaml
-#           git add -A
-#           git commit -m "Update image for - ${{ github.sha }}"
-#       - run: echo ${{ github }}
-#       - run: git push origin main
-
-
-
-  deploy:
-    name: Deploy to EKS
-    runs-on: ubuntu-latest
+  update-manifest:
+    runs-on: ubuntu-latest 
+    needs: ['build']
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
-
-      - name: Install kubectl
-        uses: azure/setup-kubectl@v1
-        with:
-          version: 'v1.24.0'
-
-      - name: Download deployment.yaml
+      - uses: actions/checkout@v3
+        with: 
+          ref: 'deployment'
+          token: ${{ secrets.G_TOKEN2 }}
+      - name: setup git config
         run: |
-          curl -sLO https://raw.githubusercontent.com/vikashkumar/manifest-yaml/main/deployment.yaml
-
-      - name: Update deployment.yaml with new image tag
-        run: |
-           sed -i 's+947841444229.dkr.ecr.us-east-2.amazonaws.com/react-image:.*+947841444229.dkr.ecr.us-east-2.amazonaws.com/react-image:${{ github.sha }}+g' deployment.yaml
-
-      - name: Apply deployment.yaml
-        run: |
-          kubectl apply -f deployment.yaml
-
-      - name: Wait for deployment to finish
-        run: |
-          kubectl rollout status deployment/<your-deployment-name>
-
-      - name: Run tests
-        run: |
-          kubectl exec --stdin --tty <your-pod-name> -- pytest
+          git config --global user.email "chiragdksh@gmail.com"
+          git config --global user.name "vikashkumar0712"
+          echo ${{ github.sha }}
+          sed -i 's+947841444229.dkr.ecr.us-east-2.amazonaws.com/react-image:.*+947841444229.dkr.ecr.us-east-2.amazonaws.com/react-image:${{ github.sha }}+g' deployment.yaml
+          git add -A
+          git commit -m "Update image for - ${{ github.sha }}"
+      - run: echo ${{ github }}
+      - run: git push origin deployment
