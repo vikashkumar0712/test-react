@@ -5,7 +5,7 @@
 Create a EC2 Instance
 
 2:
-Modify the Security Group And allow 3000 port traffic
+Modify the Security Groups And allow 3000 port traffic
 
 3: 
 SSH into the instance 
