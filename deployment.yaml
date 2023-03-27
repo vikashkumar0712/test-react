@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: react-pod
+  labels: 
+    app: my-react-app
+spec:
+  containers:
+  - name: react-container
+    image: 947841444229.dkr.ecr.us-east-2.amazonaws.com/react-image:0f57cc9cf8d7fc1f7c34a200ff8e6cf9b34eeaf7
+    ports:
+    - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: my-react-app
+  ports:
+  - name: http
+    port: 80
+    targetPort: 3000
+    nodePort: 30001
+  type: NodePort
