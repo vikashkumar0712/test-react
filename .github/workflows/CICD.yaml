@@ -55,3 +55,28 @@ jobs:
           git commit -m "Update image for - ${{ github.sha }}"
       - run: echo ${{ github }}
       - run: git push origin deployment
+  deploy:
+    name: Deploy Image
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download kubectl
+      run: |
+        curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+        chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/kubectl
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+
+    - name: Update kubectl context
+      run: |
+        aws eks update-kubeconfig --name TestCluster --region us-east-2
+
+    - name: Deploy React image to EKS cluster
+      run: |
+        kubectl apply -f deployment.yaml
