@@ -10,8 +10,8 @@ function Navbar() {
         <Link to={'/'}>
         <img src={Logo} alt={`Logo`} className={`object-fill w-12 md:w-15`} />
         </Link>
-        <Link to={`/`} className={`text-blue-400 font-bold text-xl md:text-2xl`}>Movies</Link>
-        <Link to={'/favourites'} className={`text-blue-400 font-bold text-xl md:text-2xl`}>Favourites</Link>
+        <Link to={`/`} className={`text-blue-400 font-bold text-xl md:text-2xl`}>Home</Link>
+        <Link to={'/favourites'} className={`text-blue-400 font-bold text-xl md:text-2xl`}>My List</Link>
       </div>
     </>
   );
