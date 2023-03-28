@@ -105,10 +105,7 @@ jobs:
 
     - name: Deploy React image to EKS cluster
       run: |
-        kubectl apply -f deployment.yaml || false
         kubectl set image deployment/react-pod react-container=947841444229.dkr.ecr.us-east-2.amazonaws.com/react-image:${{ github.sha }}
-    #  if: '!kubectl get deployment/react-pod >/dev/null 2>&1'
-     # run: kubectl apply -f deployment.yaml
-   # - name: Update image
+
         
      
