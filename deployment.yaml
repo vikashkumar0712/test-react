@@ -26,6 +26,6 @@ spec:
     spec:
       containers:
       - name: react-container
-        image: 947841444229.dkr.ecr.us-east-2.amazonaws.com/react-image:2683ed16bc3203a671248427780de135b288a3a2
+        image: 947841444229.dkr.ecr.us-east-2.amazonaws.com/react-image:e514a8ae9e950aa6a6ed9da3fe220b1a4cfaa34a
         ports:
         - containerPort: 3000  
