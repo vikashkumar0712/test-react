@@ -107,5 +107,6 @@ jobs:
       run: |
         kubectl apply -f deployment.yaml
         kubectl apply -f ingress-resource.yaml
+        kubectl apply -f prod_certificate_issuer.yaml
         
      
