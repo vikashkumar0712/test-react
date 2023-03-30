@@ -1,4 +1,4 @@
-# fFollowing Steps I have done to deploy react UI Application in Docker Container
+# Following Steps I have done to deploy react UI Application in Docker Container
 
 ### Provisioning The server
 1: 
