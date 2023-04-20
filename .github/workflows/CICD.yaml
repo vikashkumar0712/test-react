@@ -38,6 +38,8 @@ jobs:
       run: |
         npm install
         npm run build
+        cd build
+        ls
         aws s3 cp build s3://arifact-bucket2001/
         
         
